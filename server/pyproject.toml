@@ -1,0 +1,17 @@
+[project]
+name = "server"
+version = "0.1.0"
+description = "React + Python Template"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "alembic>=1.15.1",
+    "alembic-postgresql-enum>=1.7.0",
+    "asyncpg>=0.30.0",
+    "dishka>=1.4.2",
+    "fastapi>=0.115.11",
+    "python-dotenv>=1.0.1",
+    "python-jose>=3.4.0",
+    "sqlalchemy>=2.0.39",
+    "uvicorn>=0.34.0",
+]
