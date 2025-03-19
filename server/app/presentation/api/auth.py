@@ -27,7 +27,7 @@ async def register(
     user_service: FromDishka[UserService],
     response: Response,
     token_processor: Annotated[TokenProcessor, Depends(Stub(TokenProcessor))],
-) -> JSONResponse:
+) -> str:
     user = await user_service.create_user(CreateUserDTO(
         id=uuid4(),
         joined_at=datetime.now(UTC),
@@ -35,7 +35,7 @@ async def register(
         email=data.email,
     ))
 
-    token = token_processor.create_token(data=dict(user_id=user.id), expires_in=timedelta(days=1))
-    response.set_cookie('access_token', token, httponly=True)
+    token = token_processor.create_token(data=dict(user_id=str(user.id)), expires_in=timedelta(days=1))
+    response.set_cookie('token', token, httponly=True)
 
-    return JSONResponse(status_code=200, content=dict(message='success'))
+    return "ok"

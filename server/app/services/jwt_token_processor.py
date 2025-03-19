@@ -1,3 +1,4 @@
+import json
 from typing import Literal, Any, MutableMapping
 from datetime import timedelta, datetime, UTC
 from uuid import UUID
@@ -31,7 +32,7 @@ class TokenProcessor:
     ) -> str:
         now = datetime.now(UTC)
         exp = now + expires_in
-        payload = dict(exp=exp, sub=data)
+        payload = dict(exp=exp, sub=json.dumps(data))
 
         token = jwt.encode(
             payload,
@@ -47,7 +48,8 @@ class TokenProcessor:
     ) -> MutableMapping[str, Any]:
         try:
             payload = jwt.decode(token, key=self.key, algorithms=self.algorythm)
-            return payload['sub']
+
+            return json.loads(payload['sub'])
         except JWTError:
             raise NotAuthorizedError('Not Authorized')
         except KeyError:
